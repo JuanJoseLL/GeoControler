@@ -37,6 +37,8 @@ public class Main {
                         }else if(parts[3].equals("cities")){
                             System.out.println(controler.showList(comand));
                         }
+                    } else if (comand.contains("DELETE")) {
+                        System.out.println(controler.deleteFromDatabase(comand));
                     }
                     String[] parts = comand.split( "\\(");
                     if(parts[0].equals("INSERT INTO countries" )){
