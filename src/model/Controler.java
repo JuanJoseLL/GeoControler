@@ -282,7 +282,7 @@ public class Controler {
         if(searchVal.equals("country")){
             for(Country a:arrCountry){
                 for (City b:arrCity){
-                    if(a.getName().equals(type)){
+                    if(a.getName().equals(type) && a.getId().equals(b.getCountryID())){
                         listCity.add(b);
                     }
                 }
@@ -341,6 +341,27 @@ public class Controler {
         }
         throw new NoValidFormatException();
 
+    }
+    public String deleteFromDatabase(String comand) throws NoValidFormatException {
+        String delete=comand.replace("DELETE","SELECT *");
+        String[] parts=comand.split(" ");
+        try{
+            if(parts[2].equals("countries")){
+                ArrayList<Country> list=new ArrayList<>(selectCommandCountry(delete));
+                arrCountry.removeAll(list);
+                saveData();
+                return "All the countries that meet these conditions were eliminated";
+            }if(parts[2].equals("cities")){
+                ArrayList<City> list=new ArrayList<>(selectCommandCity(delete));
+                arrCity.removeAll(list);
+                saveData();
+                return "All the cities that meet these conditions where eliminated";
+            }
+            throw new NoValidFormatException();
+        }catch (NoValidFormatException ex){
+            ex.printStackTrace();
+        }
+        return "No values found that meet these requirements";
     }
     public boolean existCountry(String id){
         for (Country a:arrCountry){
